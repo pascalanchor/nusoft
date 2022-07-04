@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence_2_2.xsd">
+	<persistence-unit>
+		<class>avh.nusoft.api.model.Address</class>
+		<class>avh.nusoft.api.model.Application</class>
+		<class>avh.nusoft.api.model.Article</class>
+		<class>avh.nusoft.api.model.Bid</class>
+		<class>avh.nusoft.api.model.Certification</class>
+		<class>avh.nusoft.api.model.Contact</class>
+		<class>avh.nusoft.api.model.Degree</class>
+		<class>avh.nusoft.api.model.Domain</class>
+		<class>avh.nusoft.api.model.DomainSkill</class>
+		<class>avh.nusoft.api.model.Experience</class>
+		<class>avh.nusoft.api.model.Message</class>
+		<class>avh.nusoft.api.model.RequestSkill</class>
+		<class>avh.nusoft.api.model.ResourceRequest</class>
+		<class>avh.nusoft.api.model.Review</class>
+		<class>avh.nusoft.api.model.Rfp</class>
+		<class>avh.nusoft.api.model.Skill</class>
+		<class>avh.nusoft.api.model.Subscription</class>
+		<class>avh.nusoft.api.model.Role</class>
+		<class>avh.nusoft.api.model.UserRole</class>
+	</persistence-unit>
+</persistence>
