@@ -1,6 +1,6 @@
-package avh.nusoft.api.security.api.model.out;
+package avh.nusoft.api.services.model.out;
 
-import avh.nusoft.api.security.api.model.APIUser;
+import avh.nusoft.api.services.model.APIUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

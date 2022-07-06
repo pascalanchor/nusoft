@@ -13,7 +13,7 @@ import avh.nusoft.api.model.Degree;
 import avh.nusoft.api.services.impl.DegreeSvcImpl;
 import avh.nusoft.api.services.model.in.APIDegreeIn;
 import avh.nusoft.api.services.model.out.APIDegreeOut;
-import avh.nusoft.api.services.transformer.Transformer;
+import avh.nusoft.api.services.model.transformer.ModelTransformer;
 
 @RestController
 public class DegreeSvc {
@@ -23,9 +23,9 @@ public class DegreeSvc {
 	@PostMapping("/avh/nusoft/api/authorized/degree")
 	public ResponseEntity<APIDegreeOut> addDegree(@RequestBody APIDegreeIn di) {
 		try {
-			Degree d = Transformer.DegreeAPI2Model(di);
+			Degree d = ModelTransformer.DegreeAPI2Model(di);
 			d = degSvc.addNewDegree(d, di.getEmail());
-			APIDegreeOut res = Transformer.DegreeModel2API(d);
+			APIDegreeOut res = ModelTransformer.DegreeModel2API(d);
 			return ResponseEntity.ok().body(res);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());

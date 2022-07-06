@@ -1,4 +1,4 @@
-package avh.nusoft.api.security.api.model;
+package avh.nusoft.api.services.model;
 
 import java.util.ArrayList;
 import java.util.Date;
