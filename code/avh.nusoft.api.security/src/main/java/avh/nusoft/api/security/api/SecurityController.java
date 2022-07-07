@@ -43,10 +43,14 @@ public class SecurityController {
     public ResponseEntity<APIUserOut> login(@RequestParam String email, @RequestParam String password) {
     	try {
     		UsernamePasswordAuthenticationToken atk = new UsernamePasswordAuthenticationToken(email, password);
+    		System.out.println("-------------------------------------");
     		Authentication authentication = authenticationManager.authenticate(atk);
+    		
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
+            System.out.println("==================================");
             List<Contact> all = rep.getContactRep().findByEmail(email);
+            System.out.println(all.get(0).getEmail());
             if ((all == null) || (all.size() <= 0))
             	throw new UsernameNotFoundException(email);
             

@@ -1,8 +1,12 @@
 package avh.nusoft.api.services.transformer;
 
+
+import avh.nusoft.api.model.Article;
 import avh.nusoft.api.model.Degree;
 import avh.nusoft.api.model.domains.Honour;
+import avh.nusoft.api.services.model.in.APIArticleIn;
 import avh.nusoft.api.services.model.in.APIDegreeIn;
+import avh.nusoft.api.services.model.out.APIArticleOut;
 import avh.nusoft.api.services.model.out.APIDegreeOut;
 
 public class Transformer {
@@ -27,4 +31,9 @@ public class Transformer {
 		
 		return res;
 	}
+	
+	
+	
+	
+	
 }
