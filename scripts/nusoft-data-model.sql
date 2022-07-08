@@ -179,13 +179,12 @@ create table resource_request (
 	subscription_id	varchar(128) not null,
 	status			varchar(128) not null,
 	cdate			date not null,
-	start_date		date,
-	end_date		date,
-	duration		int,
-	hourly_rate		decimal,
 	currency		varchar(128),
 	nb_resource		int not null default 1,
-	
+	duration		int,
+	start_date		date,
+	hourly_rate		decimal,
+
 	constraint fk_rqt_sub
 		foreign key(subscription_id)
 		references ssubscription(eid)
