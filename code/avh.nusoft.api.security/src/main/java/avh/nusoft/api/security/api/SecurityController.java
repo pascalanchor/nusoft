@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,9 +48,11 @@ public class SecurityController {
     	try {
     		UsernamePasswordAuthenticationToken atk = new UsernamePasswordAuthenticationToken(email, password);
     		Authentication authentication = authenticationManager.authenticate(atk);
+    		
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
             List<Contact> all = rep.getContactRep().findByEmail(email);
+            System.out.println(all.get(0).getEmail());
             if ((all == null) || (all.size() <= 0))
             	throw new UsernameNotFoundException(email);
             
