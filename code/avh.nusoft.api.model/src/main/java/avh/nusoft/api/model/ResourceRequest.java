@@ -26,10 +26,6 @@ public class ResourceRequest implements Serializable {
 
 	private int duration;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="end_date")
-	private Date endDate;
-
 	@Column(name="hourly_rate")
 	private double hourlyRate;
 
@@ -80,14 +76,6 @@ public class ResourceRequest implements Serializable {
 
 	public void setDuration(int duration) {
 		this.duration = duration;
-	}
-
-	public Date getEndDate() {
-		return this.endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
 	}
 
 	public double getHourlyRate() {
