@@ -1,0 +1,19 @@
+{
+	"email": "p.esper@anchor.holdings",
+	"firstname": "Hassan",
+	"lastname": "Esper",
+	"gender": "Male",
+	"dob": "1970-03-23",
+	"phone": "+971 56 130 9362",
+	"hourlyRate": "100",
+	"currency": "USD",
+	"roles": ["ROLE_User"],
+	"pwd": "ABC",
+	"address": {
+		"country": "UAE",
+		"state": "Dubai",
+		"city": "Dubai",
+		"street": "JVC",
+		"zipcode": "000000"
+	}
+}

@@ -6,14 +6,17 @@ import avh.nusoft.api.model.Address;
 import avh.nusoft.api.model.Article;
 import avh.nusoft.api.model.Contact;
 import avh.nusoft.api.model.Degree;
+import avh.nusoft.api.model.Subscription;
 import avh.nusoft.api.model.domains.Honour;
 import avh.nusoft.api.services.model.in.APIAddressIn;
 import avh.nusoft.api.services.model.in.APIArticleIn;
 import avh.nusoft.api.services.model.in.APIDegreeIn;
+import avh.nusoft.api.services.model.in.APISubscriptionIn;
 import avh.nusoft.api.services.model.in.APIUserIn;
 import avh.nusoft.api.services.model.out.APIAddressOut;
 import avh.nusoft.api.services.model.out.APIArticleOut;
 import avh.nusoft.api.services.model.out.APIDegreeOut;
+import avh.nusoft.api.services.model.out.APISubscriptionOut;
 import avh.nusoft.api.services.model.out.APIUserOut;
 
 public class ModelTransformer {
@@ -32,16 +35,7 @@ public class ModelTransformer {
 		
 		return res;
 	}
-	
-	public static Degree DegreeAPI2Model(APIDegreeIn di) {
-		Degree d = new Degree();
-		d.setDate(di.getDate());
-		d.setHonour(di.getHonour().toString());
-		d.setInstitution(di.getInstitution());
-		d.setLevel(di.getLevel());
-		return d;
-	}
-	
+
 	public static Contact UserAPI2Model(APIUserIn u) {
 		Contact c = new Contact();
 		
@@ -59,8 +53,17 @@ public class ModelTransformer {
 		return c;
 	}
 	
+	public static Degree DegreeAPI2Model(APIDegreeIn di) {
+		Degree d = new Degree();
+		d.setDate(di.getDate());
+		d.setHonour(di.getHonour().toString());
+		d.setInstitution(di.getInstitution());
+		d.setLevel(di.getLevel());
+		return d;
+	}
+	
 	public static Article ArticleAPI2Model(APIArticleIn ai) {
-		Article a=new Article();
+		Article a = new Article();
 		a.setArticleDate(ai.getDate());
 		a.setDescription(ai.getDescription());
 		a.setTitle(ai.getTile());
@@ -68,6 +71,11 @@ public class ModelTransformer {
 		return a;
 	}
 	
+	public static Subscription SubscriptionAPI2Model(APISubscriptionIn si) {
+		Subscription res = new Subscription();
+		res.setSubscriptionDate(si.getSubscriptionDate());
+		return res;
+	}
 	// ----------------------------------------------
 	// --- Model -> API
 	// ----------------------------------------------
@@ -115,14 +123,27 @@ public class ModelTransformer {
 	}
 	
 	public static APIArticleOut ArticleModel2API(Article a) {
-		
 		APIArticleOut res=new APIArticleOut();
+		
 		res.setDate(a.getArticleDate());
 		res.setDescription(a.getDescription());
 		res.setTile(a.getTitle());
 		res.setUrl(a.getUrlLink());
 		res.setEid(a.getEid());
 		res.setEmail(a.getContact().getEmail());
+		
+		return res;
+	}
+	
+	public static APISubscriptionOut SubscriptionModel2API(Subscription s) {
+		APISubscriptionOut res = new APISubscriptionOut();
+		
+		res.setDomain(s.getDomain().getEid());
+		res.setEid(s.getEid());
+		res.setEmail(s.getContact().getEmail());
+		res.setStatus(s.getStatus());
+		res.setSubscriptionDate(s.getSubscriptionDate());
+		
 		return res;
 	}
 }

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import avh.nusoft.api.model.Contact;
 import avh.nusoft.api.model.UserRole;
-import avh.nusoft.api.model.reps.NusoftRep;
+import avh.nusoft.api.persistence.NusoftRep;
 
 @Service
 @Transactional

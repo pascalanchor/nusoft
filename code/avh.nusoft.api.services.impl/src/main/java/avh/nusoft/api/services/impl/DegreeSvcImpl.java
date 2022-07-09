@@ -1,6 +1,5 @@
 package avh.nusoft.api.services.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,15 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import avh.nusoft.api.model.Contact;
 import avh.nusoft.api.model.Degree;
-import avh.nusoft.api.model.reps.NusoftRep;
+import avh.nusoft.api.persistence.NusoftRep;
 import avh.nusoft.api.services.impl.util.RepHelper;
 
 @Component
 public class DegreeSvcImpl {
-	@Autowired
-	private NusoftRep rep;
-	@Autowired
-	private RepHelper helper;
+	@Autowired private NusoftRep rep;
+	@Autowired private RepHelper helper;
 
 	public DegreeSvcImpl() {}
 
@@ -34,20 +31,41 @@ public class DegreeSvcImpl {
 		return d;
 	}
 
+	@Transactional
+	public boolean deleteDegree(String id) {
+		rep.getDegreeRep().deleteById(id);
+		return true;
+	}
+	
+	@Transactional
 	public Degree updateDegree(String id, Degree d) {
-		return null;
+		Degree dbDegree = rep.getDegreeRep().findById(id)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("the Degree %s was not found", id)));
+		
+		if (d.getDate() != null)
+			dbDegree.setDate(d.getDate());
+		if (d.getHonour() != null)
+			dbDegree.setHonour(d.getHonour());
+		if (d.getInstitution() != null)
+			dbDegree.setInstitution(d.getInstitution());
+		if (d.getLevel() != null)
+			dbDegree.setLevel(d.getLevel());
+		
+		rep.getDegreeRep().save(dbDegree);
+		return dbDegree;
 	}
 
-	public List<Degree> getAllDegree() {
-		List<Degree> degrees = new ArrayList<>();
-		rep.getDegreeRep().findAll().forEach(degree -> degrees.add(degree));
-
-		return degrees;
+	public Degree getDegree(String id) {
+		Degree res = rep.getDegreeRep().findById(id)
+						.orElseThrow(() -> new IllegalArgumentException(String.format("the Degree %s was not found", id)));
+		return res;
 	}
-
+	
 	public List<Degree> getAllDegree(String email) {
-		List<Contact> ct = rep.getContactRep().findByEmail(email);
-		List<Degree> d = rep.getDegreeRep().findByContact(ct.get(0));
-		return d;
+		Contact ct = helper.getUser(email)
+						.orElseThrow(() -> new IllegalArgumentException(String.format("the Contact %s was not found", email)));
+
+		List<Degree> res = rep.getDegreeRep().findByContact(ct);
+		return res;
 	}
 }

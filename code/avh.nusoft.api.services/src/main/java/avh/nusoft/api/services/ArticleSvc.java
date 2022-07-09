@@ -9,17 +9,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import avh.nusoft.api.common.NusoftConstants;
 import avh.nusoft.api.model.Article;
-import avh.nusoft.api.model.reps.NusoftRep;
-import avh.nusoft.api.services.impl.ArticleSvcImp;
+import avh.nusoft.api.services.impl.ArticleSvcImpl;
 
 import avh.nusoft.api.services.model.in.APIArticleIn;
 import avh.nusoft.api.services.model.out.APIArticleOut;
@@ -27,13 +27,10 @@ import avh.nusoft.api.services.model.transformer.ModelTransformer;
 
 @RestController
 public class ArticleSvc {
-	@Autowired
-	private ArticleSvcImp artSvc;
-	@Autowired
-	private NusoftRep rep;
+	@Autowired private ArticleSvcImpl artSvc;
 
 	@PreAuthorize("hasAnyRole('User')")
-	@PostMapping("/avh/nusoft/api/authorized/article")
+	@PostMapping(NusoftConstants.PrivateServletPath + "/article")
 	public ResponseEntity<APIArticleOut> addArticle(@RequestBody APIArticleIn ai) {
 		try {
 			Article a = ModelTransformer.ArticleAPI2Model(ai);
@@ -46,24 +43,23 @@ public class ArticleSvc {
 	}
 
 	@PreAuthorize("hasAnyRole('User')")
-	@DeleteMapping("avh/nusoft/api/authorized/delete/article/{id}")
-	public void deleteArticle(@PathVariable("id") String id) {
-		rep.getArticleRep().deleteById(id);
-
+	@DeleteMapping(NusoftConstants.PrivateServletPath + "/article/delete/{id}")
+	public ResponseEntity<Boolean> deleteArticle(@PathVariable("id") String id) {
+		try {
+			boolean res = artSvc.deleteArticle(id);
+			return ResponseEntity.ok().body(res);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('User')")
-	@PutMapping("avh/nusoft/api/authorized/edit/article")
-	public ResponseEntity<APIArticleOut> editArticle(@RequestParam String id, @RequestBody APIArticleIn ai) {
+	@PatchMapping(NusoftConstants.PrivateServletPath + "/article/update/{id}")
+	public ResponseEntity<APIArticleOut> updateArticle(@PathVariable String id, @RequestBody APIArticleIn ai) {
 		try {
-			Article a = rep.getArticleRep().findByEid(id);
-			a.setArticleDate(ai.getDate());
-			a.setDescription(ai.getDescription());
-			a.setTitle(ai.getTile());
-			a.setUrlLink(ai.getUrl());
-			rep.getArticleRep().save(a);
-
-			APIArticleOut res = ModelTransformer.ArticleModel2API(a);
+			Article art = ModelTransformer.ArticleAPI2Model(ai);
+			Article updatedArticle = artSvc.updateArticle(id, art);
+			APIArticleOut res = ModelTransformer.ArticleModel2API(updatedArticle);
 			return ResponseEntity.ok().body(res);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
@@ -72,11 +68,12 @@ public class ArticleSvc {
 	}
 
 	@PreAuthorize("hasAnyRole('User')")
-	@GetMapping("avh/nusoft/api/authorized/get/article/id")
-	public ResponseEntity<APIArticleOut> findArticleById(@RequestParam String id) {
+	@GetMapping(NusoftConstants.PrivateServletPath + "/article/{id}")
+	public ResponseEntity<APIArticleOut> findArticleById(@PathVariable String id) {
 		try {
-			Article a = rep.getArticleRep().findByEid(id);
+			Article a = artSvc.getArticle(id);
 			APIArticleOut res = ModelTransformer.ArticleModel2API(a);
+			
 			return ResponseEntity.ok().body(res);
 			
 		} catch (Exception e) {
@@ -86,17 +83,19 @@ public class ArticleSvc {
 	}
 
 	@PreAuthorize("hasAnyRole('User')")
-	@GetMapping("avh/nusoft/api/authorized/all/article/contact")
-	public List<APIArticleOut> getArticle(@RequestParam String email) {
+	@GetMapping(NusoftConstants.PrivateServletPath + "/article/all")
+	public ResponseEntity<List<APIArticleOut>> getAllArticle(@RequestParam String email) {
 		try {
-			List<Article> a = artSvc.getArticle(email);
+			List<Article> arts = artSvc.getAllArticle(email);
+			if (arts == null)
+				return null;
+			
 			List<APIArticleOut> ap = new ArrayList<>();
-			for (Article de : a) {
+			for (Article de : arts) {
 				APIArticleOut res = ModelTransformer.ArticleModel2API(de);
 				ap.add(res);
 			}
-			return ap;
-			
+			return ResponseEntity.ok().body(ap);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
 		}

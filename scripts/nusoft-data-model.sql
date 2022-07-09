@@ -17,7 +17,24 @@ drop table if exists user_role			cascade;
 drop table if exists srole				cascade;
 drop table if exists contact			cascade;
 drop table if exists saddress			cascade;
+drop table if exists scountry			cascade;
+drop table if exists scurrency			cascade;
 
+create table scountry (
+	cname varchar(128) primary key
+);
+
+insert into scountry (cname) values ('Australia');
+insert into scountry (cname) values ('Lebanon');
+insert into scountry (cname) values ('United Arab Emirates');
+
+create table scurrency (
+	cname varchar(128) prinary key
+);
+insert into scurrency (cname) values('USD');
+insert into scurrency (cname) values('AUD');
+insert into scurrency (cname) values('LBP');
+insert into scurrency (cname) values('AED');
 
 create table saddress (
 	eid 	varchar(128) primary key,
@@ -125,6 +142,9 @@ create table sdomain (
 	eid		varchar(128) primary key,
 	name	varchar(128) not null
 );
+
+insert into sdomain(eid, name) values ('Software Development', 'Software Development');
+
 
 create table domain_skill (
 	eid			varchar(128) primary key,

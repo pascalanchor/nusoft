@@ -12,6 +12,15 @@ ECHO.
 ECHO "	---> INSTALLING %MODULE%..."
 call mvn install:install-file -Dfile=..\code\%MODULE%\target\%MODULE%-0.0.1-SNAPSHOT.jar -DgroupId=%PRJ% -DartifactId=%MODULE% -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
 
+REM PERSISTENCE
+SET MODULE=%PRJ%.persistence
+ECHO "---> BUILDING %MODULE%"
+ECHO "	---> PACKAGING %MODULE%..."
+call mvn -f ..\code\%MODULE% package -DskipTests
+ECHO.
+ECHO "	---> INSTALLING %MODULE%..."
+call mvn install:install-file -Dfile=..\code\%MODULE%\target\%MODULE%-0.0.1-SNAPSHOT.jar -DgroupId=%PRJ% -DartifactId=%MODULE% -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
+
 REM API MODEL
 SET MODULE=%PRJ%.services.model
 ECHO "---> BUILDING %MODULE%"

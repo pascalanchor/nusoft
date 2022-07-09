@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import avh.nusoft.api.common.NusoftConstants;
 import avh.nusoft.api.model.Address;
 import avh.nusoft.api.model.Contact;
 import avh.nusoft.api.model.Role;
 import avh.nusoft.api.model.UserRole;
-import avh.nusoft.api.model.reps.NusoftRep;
-import avh.nusoft.api.security.common.SecurityConstants;
+import avh.nusoft.api.persistence.NusoftRep;
 import avh.nusoft.api.security.jwt.JWTProvider;
 import avh.nusoft.api.services.model.in.APIUserIn;
 import avh.nusoft.api.services.model.out.APIUserOut;
@@ -43,7 +43,7 @@ public class SecurityController {
     @Autowired NusoftRep rep;
 	@Autowired PasswordEncoder pHasher;
 	
-    @PostMapping(SecurityConstants.LoginServletPath)
+    @PostMapping(NusoftConstants.LoginServletPath)
     public ResponseEntity<APIUserOut> login(@RequestParam String email, @RequestParam String password) {
     	try {
     		UsernamePasswordAuthenticationToken atk = new UsernamePasswordAuthenticationToken(email, password);
@@ -70,7 +70,7 @@ public class SecurityController {
     }
 
     @Transactional
-    @PostMapping(SecurityConstants.RegisterServletPath)
+    @PostMapping(NusoftConstants.RegisterServletPath)
     public boolean registerUser(@RequestBody APIUserIn usr) {
     	try {
     		// any registered user with the same name ?
@@ -78,7 +78,7 @@ public class SecurityController {
     		if ((ctts != null) && (ctts.size() > 0))
     			throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED, String.format("the user %s is already registered", usr.getEmail()));
     		// now create the user with the ROLE_User role
-    		Role role = rep.getRoleRep().findById(SecurityConstants.RoleUser).get();
+    		Role role = rep.getRoleRep().findById(NusoftConstants.RoleUser).get();
     		Contact res = ModelTransformer.UserAPI2Model(usr);
     		res.setPwd(pHasher.encode(usr.getPwd()));
     		

@@ -23,5 +23,7 @@
 		<class>avh.nusoft.api.model.Subscription</class>
 		<class>avh.nusoft.api.model.Role</class>
 		<class>avh.nusoft.api.model.UserRole</class>
+		<class>avh.nusoft.api.model.Country</class>
+		<class>avh.nusoft.api.model.Currency</class>
 	</persistence-unit>
 </persistence>

@@ -9,5 +9,5 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class APIArticleOut extends APIArticle{
-private String eid;
+	private String eid;
 }
