@@ -25,7 +25,5 @@
 		<class>avh.nusoft.api.model.UserRole</class>
 		<class>avh.nusoft.api.model.Country</class>
 		<class>avh.nusoft.api.model.Currency</class>
-		<class>avh.nusoft.api.model.Scountry</class>
-		<class>avh.nusoft.api.model.Scurrency</class>
 	</persistence-unit>
 </persistence>
