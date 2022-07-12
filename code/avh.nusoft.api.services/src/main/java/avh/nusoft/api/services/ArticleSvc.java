@@ -43,7 +43,7 @@ public class ArticleSvc {
 	}
 
 	@PreAuthorize("hasAnyRole('User')")
-	@DeleteMapping(NusoftConstants.PrivateServletPath + "/article/delete/{id}")
+	@DeleteMapping(NusoftConstants.PrivateServletPath + "/article/{id}/delete")
 	public ResponseEntity<Boolean> deleteArticle(@PathVariable("id") String id) {
 		try {
 			boolean res = artSvc.deleteArticle(id);
@@ -54,7 +54,7 @@ public class ArticleSvc {
 	}
 
 	@PreAuthorize("hasAnyRole('User')")
-	@PatchMapping(NusoftConstants.PrivateServletPath + "/article/update/{id}")
+	@PatchMapping(NusoftConstants.PrivateServletPath + "/article/{id}/update")
 	public ResponseEntity<APIArticleOut> updateArticle(@PathVariable String id, @RequestBody APIArticleIn ai) {
 		try {
 			Article art = ModelTransformer.ArticleAPI2Model(ai);

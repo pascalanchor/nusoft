@@ -42,7 +42,7 @@ public class DegreeSvc {
 	}
 
 	@PreAuthorize("hasAnyRole('User')")
-	@DeleteMapping(NusoftConstants.PrivateServletPath + "/degree/delete/{id}")
+	@DeleteMapping(NusoftConstants.PrivateServletPath + "/degree/{id}/delete")
 	public ResponseEntity<Boolean> deleteDegree(@PathVariable String id) {
 		try {
 			boolean res = degSvc.deleteDegree(id);
@@ -53,7 +53,7 @@ public class DegreeSvc {
 	}
 
 	@PreAuthorize("hasAnyRole('User')")
-	@PatchMapping(NusoftConstants.PrivateServletPath + "/degree/update/{id}")
+	@PatchMapping(NusoftConstants.PrivateServletPath + "/degree/{id}/update")
 	public ResponseEntity<APIDegreeOut> updateDegree(@PathVariable String id, @RequestBody APIDegreeIn di) {
 	try {
 		Degree d = ModelTransformer.DegreeAPI2Model(di);

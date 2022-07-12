@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,7 +28,7 @@ public class SubscriptionSvc {
 	private SubscriptionSvcImpl subSvc;
 
 	@PostMapping(NusoftConstants.PrivateServletPath + "/subscription")
-	public ResponseEntity<APISubscriptionOut> registerSubscription(APISubscriptionIn sin) {
+	public ResponseEntity<APISubscriptionOut> registerSubscription(@RequestBody APISubscriptionIn sin) {
 		try {
 			Subscription s = ModelTransformer.SubscriptionAPI2Model(sin);
 
@@ -40,7 +41,7 @@ public class SubscriptionSvc {
 		}
 	}
 	
-	@DeleteMapping(NusoftConstants.PrivateServletPath + "/subscription/delete/{id}")
+	@DeleteMapping(NusoftConstants.PrivateServletPath + "/subscription/{id}/delete")
 	public ResponseEntity<Boolean> unregisterSubscription(@PathVariable String id) {
 		try {
 			return ResponseEntity.ok().body(subSvc.unregisterSubscription(id));

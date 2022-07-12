@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import avh.nusoft.api.model.Application;
 import avh.nusoft.api.model.DomainSkill;
 import avh.nusoft.api.model.RequestSkill;
 import avh.nusoft.api.model.ResourceRequest;
@@ -98,5 +99,13 @@ public class ResourceRequestSvcImpl {
 			rs.setEid(UUID.randomUUID().toString());
 			rr.addSkill(rs);	
 		}
+	}
+
+	public List<Application> getAllApplications(String id) {
+		ResourceRequest rr = rep.getResourceRequestRep().findById(id)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("no resource request with id '%s'", id)));
+		
+		List<Application> res = rep.getApplicationRep().findByResourceRequest(rr);
+		return res;
 	}
 }

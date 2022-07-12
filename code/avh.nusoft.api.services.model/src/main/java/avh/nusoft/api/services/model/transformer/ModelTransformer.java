@@ -3,6 +3,7 @@ package avh.nusoft.api.services.model.transformer;
 import java.util.UUID;
 
 import avh.nusoft.api.model.Address;
+import avh.nusoft.api.model.Application;
 import avh.nusoft.api.model.Article;
 import avh.nusoft.api.model.Contact;
 import avh.nusoft.api.model.Degree;
@@ -10,12 +11,14 @@ import avh.nusoft.api.model.ResourceRequest;
 import avh.nusoft.api.model.Subscription;
 import avh.nusoft.api.model.domains.Honour;
 import avh.nusoft.api.services.model.in.APIAddressIn;
+import avh.nusoft.api.services.model.in.APIApplicationIn;
 import avh.nusoft.api.services.model.in.APIArticleIn;
 import avh.nusoft.api.services.model.in.APIDegreeIn;
 import avh.nusoft.api.services.model.in.APIResourceRequestIn;
 import avh.nusoft.api.services.model.in.APISubscriptionIn;
 import avh.nusoft.api.services.model.in.APIUserIn;
 import avh.nusoft.api.services.model.out.APIAddressOut;
+import avh.nusoft.api.services.model.out.APIApplicationOut;
 import avh.nusoft.api.services.model.out.APIArticleOut;
 import avh.nusoft.api.services.model.out.APIDegreeOut;
 import avh.nusoft.api.services.model.out.APIResourceRequestOut;
@@ -93,6 +96,17 @@ public class ModelTransformer {
 		
 		return res;
 	}
+	
+	public static Application ApplicationAPI2Model(APIApplicationIn ain) {
+		Application res = new Application();
+		
+		res.setCurrency(ain.getCurrency());
+		res.setDate(ain.getDate());
+		res.setProposedRate(ain.getProposedRate());
+
+		return null;
+	}
+	
 	// ----------------------------------------------
 	// --- Model -> API
 	// ----------------------------------------------
@@ -177,6 +191,20 @@ public class ModelTransformer {
 		res.setStatus(rr.getStatus());
 		res.setSubscriptionId(rr.getSubscription().getEid());
 		rr.getSkills().forEach(x -> res.addSkill(x.getDomainSkill().getSkillName()));
+		return res;
+	}
+
+	public static APIApplicationOut ApplicationModel2API(Application app) {
+		APIApplicationOut res = new APIApplicationOut();
+		
+		res.setCurrency(app.getCurrency());
+		res.setDate(app.getDate());
+		res.setEid(app.getEid());
+		res.setProposedRate(app.getProposedRate());
+		res.setRequestId(app.getResourceRequest().getEid());
+		res.setStatus(app.getStatus());
+		res.setSubscriptionId(app.getSubscription().getEid());
+		
 		return res;
 	}
 }

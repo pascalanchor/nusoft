@@ -12,14 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import avh.nusoft.api.common.NusoftConstants;
+import avh.nusoft.api.model.Application;
 import avh.nusoft.api.model.ResourceRequest;
 import avh.nusoft.api.services.impl.ResourceRequestSvcImpl;
 import avh.nusoft.api.services.model.in.APIResourceRequestIn;
+import avh.nusoft.api.services.model.out.APIApplicationOut;
 import avh.nusoft.api.services.model.out.APIResourceRequestOut;
 import avh.nusoft.api.services.model.transformer.ModelTransformer;
 
@@ -29,7 +32,7 @@ public class ResourceRequestSvc {
 	
 	@PreAuthorize("hasAnyRole('User')")
 	@PostMapping(NusoftConstants.PrivateServletPath + "/resourcerequest")
-	public ResponseEntity<APIResourceRequestOut> createResourceRequest(APIResourceRequestIn rri) {
+	public ResponseEntity<APIResourceRequestOut> createResourceRequest(@RequestBody APIResourceRequestIn rri) {
 		try {
 			ResourceRequest rr = ModelTransformer.ResourceRequestAPI2Model(rri);
 			rr = rrsvc.createResourceRequest(rr, rri.getSubscriptionId(), rri.getAllSkills());
@@ -41,8 +44,8 @@ public class ResourceRequestSvc {
 	}
 	
 	@PreAuthorize("hasAnyRole('User')")
-	@PatchMapping(NusoftConstants.PrivateServletPath + "/resourcerequest/update/{id}")
-	public ResponseEntity<APIResourceRequestOut> updateResourceRequest(@PathVariable("id") String id, APIResourceRequestIn rri) {
+	@PatchMapping(NusoftConstants.PrivateServletPath + "/resourcerequest/{id}/update")
+	public ResponseEntity<APIResourceRequestOut> updateResourceRequest(@PathVariable("id") String id, @RequestBody APIResourceRequestIn rri) {
 		try {
 			return ResponseEntity.ok().body(null);
 		} catch (Exception e) {
@@ -51,7 +54,7 @@ public class ResourceRequestSvc {
 	}
 	
 	@PreAuthorize("hasAnyRole('User')")
-	@DeleteMapping(NusoftConstants.PrivateServletPath + "/resourcerequest/delete/{id}")
+	@DeleteMapping(NusoftConstants.PrivateServletPath + "/resourcerequest/{id}/delete")
 	public ResponseEntity<Boolean> deleteResourceRequest(@PathVariable("id") String id) {
 		try {
 			boolean res = rrsvc.deleteResourceRequest(id);
@@ -91,4 +94,23 @@ public class ResourceRequestSvc {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
 		}
 	}
+	
+	@PreAuthorize("hasAnyRole('User')")
+	@GetMapping(NusoftConstants.PrivateServletPath + "/resourcerequest/{id}/applications")
+	public ResponseEntity<List<APIApplicationOut>> getAllRequestApplication(@PathVariable String id) {
+		try {
+			List<Application> apps = rrsvc.getAllApplications(id);
+			if ((apps == null) || (apps.size() <= 0))
+				return ResponseEntity.ok().body(null);
+			
+			List<APIApplicationOut> res = new ArrayList<>();
+			apps.forEach(x -> res.add(ModelTransformer.ApplicationModel2API(x)));
+			
+			return ResponseEntity.ok().body(res);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+	}
+	
+	
 }
