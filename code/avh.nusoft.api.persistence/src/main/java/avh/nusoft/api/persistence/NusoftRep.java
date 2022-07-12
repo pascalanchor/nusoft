@@ -28,4 +28,5 @@ public class NusoftRep {
 	@Autowired private UserRoleRep userRoleRep;
 	@Autowired private CountryRep countryRep;
 	@Autowired private CurrencyRep currencyRep;
+	@Autowired private DomainSkillRep domSkillRep;
 }

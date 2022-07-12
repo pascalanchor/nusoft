@@ -29,7 +29,7 @@ insert into scountry (cname) values ('Lebanon');
 insert into scountry (cname) values ('United Arab Emirates');
 
 create table scurrency (
-	cname varchar(128) prinary key
+	cname varchar(128) primary key
 );
 insert into scurrency (cname) values('USD');
 insert into scurrency (cname) values('AUD');
@@ -156,15 +156,35 @@ create table domain_skill (
 		references sdomain(eid)
 );
 
+insert into
+	domain_skill (eid, domain_id, skill_name)
+	values ('Java', 'Software Development', 'Java');
+insert into
+	domain_skill (eid, domain_id, skill_name)
+	values ('C#', 'Software Development', 'C#');
+insert into
+	domain_skill (eid, domain_id, skill_name)
+	values ('Spring Boot', 'Software Development', 'Spring Boot');
+insert into
+	domain_skill (eid, domain_id, skill_name)
+	values ('Web Services', 'Software Development', 'Web Services');
+insert into
+	domain_skill (eid, domain_id, skill_name)
+	values ('Design Patterns', 'Software Development', 'Design Patterns');
+
 create table skill (
 	eid			varchar(128) primary key,
 	skill_id	varchar(128) not null,
 	slevel		int 		 not null,
 	experience	int			 not null,
+	contact_id	varchar(128) not null,
 	
 	constraint	fk_skl_dsk
 		foreign key(skill_id)
-		references domain_skill(eid)
+		references domain_skill(eid),
+	constraint fk_skl_ctt
+		foreign key(contact_id)
+		references contact(eid)
 );
 
 create table ssubscription (

@@ -3,6 +3,7 @@ package avh.nusoft.api.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -37,6 +38,11 @@ public class ResourceRequest implements Serializable {
 	private Date startDate;
 
 	private String status;
+
+	//bi-directional many-to-one association to RequestSkill
+	@Transient
+	@OneToMany(mappedBy="resourceRequest")
+	private List<RequestSkill> skills;
 
 	//uni-directional many-to-one association to Subscription
 	@ManyToOne
@@ -108,6 +114,28 @@ public class ResourceRequest implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public List<RequestSkill> getSkills() {
+		return this.skills;
+	}
+
+	public void setSkills(List<RequestSkill> skills) {
+		this.skills = skills;
+	}
+
+	public RequestSkill addSkill(RequestSkill skill) {
+		getSkills().add(skill);
+		skill.setResourceRequest(this);
+
+		return skill;
+	}
+
+	public RequestSkill removeSkill(RequestSkill skill) {
+		getSkills().remove(skill);
+		skill.setResourceRequest(null);
+
+		return skill;
 	}
 
 	public Subscription getSubscription() {

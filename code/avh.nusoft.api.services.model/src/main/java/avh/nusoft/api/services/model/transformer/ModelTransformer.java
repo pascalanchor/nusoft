@@ -6,16 +6,19 @@ import avh.nusoft.api.model.Address;
 import avh.nusoft.api.model.Article;
 import avh.nusoft.api.model.Contact;
 import avh.nusoft.api.model.Degree;
+import avh.nusoft.api.model.ResourceRequest;
 import avh.nusoft.api.model.Subscription;
 import avh.nusoft.api.model.domains.Honour;
 import avh.nusoft.api.services.model.in.APIAddressIn;
 import avh.nusoft.api.services.model.in.APIArticleIn;
 import avh.nusoft.api.services.model.in.APIDegreeIn;
+import avh.nusoft.api.services.model.in.APIResourceRequestIn;
 import avh.nusoft.api.services.model.in.APISubscriptionIn;
 import avh.nusoft.api.services.model.in.APIUserIn;
 import avh.nusoft.api.services.model.out.APIAddressOut;
 import avh.nusoft.api.services.model.out.APIArticleOut;
 import avh.nusoft.api.services.model.out.APIDegreeOut;
+import avh.nusoft.api.services.model.out.APIResourceRequestOut;
 import avh.nusoft.api.services.model.out.APISubscriptionOut;
 import avh.nusoft.api.services.model.out.APIUserOut;
 
@@ -74,6 +77,20 @@ public class ModelTransformer {
 	public static Subscription SubscriptionAPI2Model(APISubscriptionIn si) {
 		Subscription res = new Subscription();
 		res.setSubscriptionDate(si.getSubscriptionDate());
+		return res;
+	}
+	
+	public static ResourceRequest ResourceRequestAPI2Model(APIResourceRequestIn rri) {
+		ResourceRequest res = new ResourceRequest();
+		
+		res.setEid(UUID.randomUUID().toString());
+		res.setCurrency(rri.getCurrency());
+		res.setDate(rri.getDate());
+		res.setDuration(rri.getDuration());
+		res.setHourlyRate(rri.getHourlyRate());
+		res.setNbResource(rri.getNbResource());
+		res.setStartDate(rri.getStartDate());
+		
 		return res;
 	}
 	// ----------------------------------------------
@@ -144,6 +161,22 @@ public class ModelTransformer {
 		res.setStatus(s.getStatus());
 		res.setSubscriptionDate(s.getSubscriptionDate());
 		
+		return res;
+	}
+	
+	public static APIResourceRequestOut ResourceRequestModel2API(ResourceRequest rr) {
+		APIResourceRequestOut res = new APIResourceRequestOut();
+		
+		res.setId(rr.getEid());
+		res.setCurrency(rr.getCurrency());
+		res.setDate(rr.getDate());
+		res.setDuration(rr.getDuration());
+		res.setHourlyRate(rr.getHourlyRate());
+		res.setNbResource(rr.getNbResource());
+		res.setStartDate(rr.getStartDate());
+		res.setStatus(rr.getStatus());
+		res.setSubscriptionId(rr.getSubscription().getEid());
+		rr.getSkills().forEach(x -> res.addSkill(x.getDomainSkill().getSkillName()));
 		return res;
 	}
 }

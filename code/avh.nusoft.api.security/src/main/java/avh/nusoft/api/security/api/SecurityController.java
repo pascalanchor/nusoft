@@ -1,5 +1,6 @@
 package avh.nusoft.api.security.api;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,8 +29,11 @@ import org.springframework.web.server.ResponseStatusException;
 import avh.nusoft.api.common.NusoftConstants;
 import avh.nusoft.api.model.Address;
 import avh.nusoft.api.model.Contact;
+import avh.nusoft.api.model.Domain;
 import avh.nusoft.api.model.Role;
+import avh.nusoft.api.model.Subscription;
 import avh.nusoft.api.model.UserRole;
+import avh.nusoft.api.model.domains.SubscriptionStatus;
 import avh.nusoft.api.persistence.NusoftRep;
 import avh.nusoft.api.security.jwt.JWTProvider;
 import avh.nusoft.api.services.model.in.APIUserIn;
@@ -91,6 +95,29 @@ public class SecurityController {
     		rep.getAddressRep().save(res.getAddress());
     		rep.getContactRep().save(res);
     		rep.getUserRoleRep().save(mb);
+    		
+    		/* temp solution for V1
+    		 * When the user register on our site, subscribe him/her to the
+    		 * *unique* domain defined in our system -> 'Software Development'
+    		 * It is a temp solution because eventually, our system will have multiple 
+    		 * domains and the user must select to which domain he/she would like 
+    		 * to subscribe: 
+    		 * 	- Software Development
+    		 * 	- Civil Engeneering
+    		 * 	- Art
+    		 * 	- etc.
+    		 */
+    		
+    		Domain d = rep.getDomainRep().findById(NusoftConstants.SoftDevDomain).get();
+    		Subscription s = new Subscription();
+    		s.setContact(res);
+    		s.setDomain(d);
+    		s.setEid(UUID.randomUUID().toString());
+    		s.setSubscriptionDate(new Date());
+    		s.setStatus(SubscriptionStatus.Active.toString());
+    		
+    		rep.getSubscriptionRep().save(s);
+    		
     		return true;
     	} catch (Exception e) {
     		throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED, e.getMessage());

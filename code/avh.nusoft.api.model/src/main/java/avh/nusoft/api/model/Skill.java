@@ -16,10 +16,15 @@ public class Skill implements Serializable {
 	@Id
 	private String eid;
 
-	private Integer experience;
+	private int experience;
 
 	@Column(name="slevel")
 	private int level;
+
+	//uni-directional many-to-one association to Contact
+	@ManyToOne
+	@JoinColumn(name="contact_id")
+	private Contact contact;
 
 	//uni-directional many-to-one association to DomainSkill
 	@ManyToOne
@@ -37,11 +42,11 @@ public class Skill implements Serializable {
 		this.eid = eid;
 	}
 
-	public Integer getExperience() {
+	public int getExperience() {
 		return this.experience;
 	}
 
-	public void setExperience(Integer experience) {
+	public void setExperience(int experience) {
 		this.experience = experience;
 	}
 
@@ -51,6 +56,14 @@ public class Skill implements Serializable {
 
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public Contact getContact() {
+		return this.contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 
 	public DomainSkill getDomainSkill() {

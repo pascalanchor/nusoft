@@ -7,5 +7,4 @@ import avh.nusoft.api.model.Skill;
 
 @Repository
 public interface SkillRep extends CrudRepository<Skill, String> {
-
 }

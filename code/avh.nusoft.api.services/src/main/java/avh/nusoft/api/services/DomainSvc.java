@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,6 +42,15 @@ public class DomainSvc {
 			return ResponseEntity.ok().body(dmnSvc.getRegisteredDomains());
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to retrieve defined countries...");
+		}
+	}
+	
+	@GetMapping(NusoftConstants.PublicServletPath + "/domain/{domainid}/skills")
+	public ResponseEntity<List<String>> getDomainSkills(@PathVariable String domainid) {
+		try {
+			return ResponseEntity.ok().body(dmnSvc.getDomainSkills(domainid));
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 		}
 	}
 
