@@ -261,11 +261,13 @@ create table application (
 );
 
 create table message (
-	eid			varchar(128) primary key,
+	eid			varchar(128)  primary key,
 	subject		varchar(128),
 	mbody		varchar(1024) not null,
-	sender		varchar(128) not null,
-	receiver	varchar(128) not null,
+	sender		varchar(128)  not null,
+	receiver	varchar(128)  not null,
+	mstatus		varchar(128)  not null,
+	mdate		timestamp	  not null,
 	
 	constraint fk_msg_ctt_1
 		foreign key(sender)

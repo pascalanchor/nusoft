@@ -21,6 +21,7 @@ import avh.nusoft.api.common.NusoftConstants;
 import avh.nusoft.api.model.Application;
 import avh.nusoft.api.model.ResourceRequest;
 import avh.nusoft.api.services.impl.ResourceRequestSvcImpl;
+import avh.nusoft.api.services.model.APIApplicationStatus;
 import avh.nusoft.api.services.model.in.APIResourceRequestIn;
 import avh.nusoft.api.services.model.out.APIApplicationOut;
 import avh.nusoft.api.services.model.out.APIResourceRequestOut;
@@ -112,5 +113,13 @@ public class ResourceRequestSvc {
 		}
 	}
 	
-	
+	@PatchMapping(NusoftConstants.PrivateServletPath + "/resourcerequest/{id}/processapplication")
+	public ResponseEntity<Boolean> processApplication(@PathVariable String id, @RequestBody APIApplicationStatus appSt) {
+		try {
+			boolean res = rrsvc.processApplication(id, appSt.getAppId(), appSt.getAppStatus());
+			return ResponseEntity.ok().body(res);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
+		}
+	}
 }

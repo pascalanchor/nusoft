@@ -7,6 +7,7 @@ import avh.nusoft.api.model.Application;
 import avh.nusoft.api.model.Article;
 import avh.nusoft.api.model.Contact;
 import avh.nusoft.api.model.Degree;
+import avh.nusoft.api.model.Message;
 import avh.nusoft.api.model.ResourceRequest;
 import avh.nusoft.api.model.Subscription;
 import avh.nusoft.api.model.domains.Honour;
@@ -14,6 +15,7 @@ import avh.nusoft.api.services.model.in.APIAddressIn;
 import avh.nusoft.api.services.model.in.APIApplicationIn;
 import avh.nusoft.api.services.model.in.APIArticleIn;
 import avh.nusoft.api.services.model.in.APIDegreeIn;
+import avh.nusoft.api.services.model.in.APIMessageIn;
 import avh.nusoft.api.services.model.in.APIResourceRequestIn;
 import avh.nusoft.api.services.model.in.APISubscriptionIn;
 import avh.nusoft.api.services.model.in.APIUserIn;
@@ -21,6 +23,8 @@ import avh.nusoft.api.services.model.out.APIAddressOut;
 import avh.nusoft.api.services.model.out.APIApplicationOut;
 import avh.nusoft.api.services.model.out.APIArticleOut;
 import avh.nusoft.api.services.model.out.APIDegreeOut;
+import avh.nusoft.api.services.model.out.APIMessageDescriptor;
+import avh.nusoft.api.services.model.out.APIMessageOut;
 import avh.nusoft.api.services.model.out.APIResourceRequestOut;
 import avh.nusoft.api.services.model.out.APISubscriptionOut;
 import avh.nusoft.api.services.model.out.APIUserOut;
@@ -105,6 +109,15 @@ public class ModelTransformer {
 		res.setProposedRate(ain.getProposedRate());
 
 		return null;
+	}
+	
+	public static Message MessageAPI2Model(APIMessageIn mi) {
+		Message m = new Message();
+		m.setBody(mi.getBody());
+		m.setDate(mi.getDate());
+		m.setSubject(mi.getSubject());
+		
+		return m;
 	}
 	
 	// ----------------------------------------------
@@ -205,6 +218,33 @@ public class ModelTransformer {
 		res.setStatus(app.getStatus());
 		res.setSubscriptionId(app.getSubscription().getEid());
 		
+		return res;
+	}
+	
+	public static APIMessageDescriptor MessageModel2APIDesc(Message m) {
+		APIMessageDescriptor res = new APIMessageDescriptor();
+		
+		res.setDate(m.getDate());
+		res.setEid(m.getEid());
+		res.setReceiver(m.getReceiver().getEmail());
+		res.setSender(m.getSender().getEmail());
+		res.setSubject(m.getSubject());
+		res.setStatus(m.getStatus());
+		
+		return res;
+	}
+	
+	public static APIMessageOut MessageModel2API(Message m) {
+		APIMessageOut res = new APIMessageOut();
+		
+		res.setDate(m.getDate());
+		res.setEid(m.getEid());
+		res.setReceiver(m.getReceiver().getEmail());
+		res.setSender(m.getSender().getEmail());
+		res.setSubject(m.getSubject());
+		res.setBody(m.getBody());
+		res.setStatus(m.getStatus());
+
 		return res;
 	}
 }

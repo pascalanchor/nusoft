@@ -12,6 +12,7 @@ import avh.nusoft.api.model.DomainSkill;
 import avh.nusoft.api.model.RequestSkill;
 import avh.nusoft.api.model.ResourceRequest;
 import avh.nusoft.api.model.Subscription;
+import avh.nusoft.api.model.domains.ApplicationStatus;
 import avh.nusoft.api.model.domains.ResourceRequestStatus;
 import avh.nusoft.api.persistence.NusoftRep;
 
@@ -107,5 +108,21 @@ public class ResourceRequestSvcImpl {
 		
 		List<Application> res = rep.getApplicationRep().findByResourceRequest(rr);
 		return res;
+	}
+
+	public boolean processApplication(String id, String appId, String appStatus) {
+		ResourceRequest rr = rep.getResourceRequestRep().findById(id)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("no resource request with id '%s'", id)));
+		Application app = rep.getApplicationRep().findById(appId)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("no application with id '%s'", id)));
+		
+		app.setStatus(appStatus);
+		if (appStatus.equals(ApplicationStatus.Accepted.toString())) {
+			rr.setStatus(ResourceRequestStatus.Closed.toString());
+			// notify applicant with message
+		} else {
+			// notify applicant with message
+		}
+		return true;
 	}
 }
