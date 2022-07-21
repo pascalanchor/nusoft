@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import avh.nusoft.api.model.Contact;
-import avh.nusoft.api.model.reps.NusoftRep;
+import avh.nusoft.api.persistence.NusoftRep;
 
 @Component
 public class RepHelper {

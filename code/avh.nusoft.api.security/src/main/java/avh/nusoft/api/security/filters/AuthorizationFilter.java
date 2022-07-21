@@ -22,7 +22,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 
-import avh.nusoft.api.security.common.SecurityConstants;
+import avh.nusoft.api.common.NusoftConstants;
 import avh.nusoft.api.security.jwt.JWTProvider;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +35,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 		// we do not need to look for any token when the user is attenpting to log in
 		// this is required because this function is invoked before landing on our API.
 		log.info("new request -> " + request.getServletPath());
-		if (request.getServletPath().startsWith(SecurityConstants.PublicServletPath)) {
+		if (request.getServletPath().startsWith(NusoftConstants.PublicServletPath)) {
 			log.info("This is a public request -> authorized");
 			filterChain.doFilter(request, response);
 			return;

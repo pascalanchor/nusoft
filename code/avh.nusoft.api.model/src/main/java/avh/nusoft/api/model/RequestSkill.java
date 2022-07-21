@@ -22,7 +22,7 @@ public class RequestSkill implements Serializable {
 	@JoinColumn(name="skill_id")
 	private DomainSkill domainSkill;
 
-	//uni-directional many-to-one association to ResourceRequest
+	//bi-directional many-to-one association to ResourceRequest
 	@ManyToOne
 	@JoinColumn(name="request_id")
 	private ResourceRequest resourceRequest;

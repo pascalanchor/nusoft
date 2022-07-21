@@ -44,8 +44,27 @@
 		
 		<dependency>
 			<groupId>avh.nusoft.api</groupId>
+			<artifactId>avh.nusoft.api.common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>avh.nusoft.api</groupId>
 			<artifactId>avh.nusoft.api.model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>avh.nusoft.api</groupId>
+			<artifactId>avh.nusoft.api.services.model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>avh.nusoft.api</groupId>
+			<artifactId>avh.nusoft.api.persistence</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 	</dependencies>
 </project>

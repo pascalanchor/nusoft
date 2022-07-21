@@ -2,6 +2,7 @@ package avh.nusoft.api.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 
 
 /**
@@ -18,6 +19,13 @@ public class Message implements Serializable {
 
 	@Column(name="mbody")
 	private String body;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="mdate")
+	private Date date;
+
+	@Column(name="mstatus")
+	private String status;
 
 	private String subject;
 
@@ -48,6 +56,22 @@ public class Message implements Serializable {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public Date getDate() {
+		return this.date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getSubject() {
