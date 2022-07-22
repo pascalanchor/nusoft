@@ -36,7 +36,7 @@ public class ResourceRequestSvc {
 	public ResponseEntity<APIResourceRequestOut> createResourceRequest(@RequestBody APIResourceRequestIn rri) {
 		try {
 			ResourceRequest rr = ModelTransformer.ResourceRequestAPI2Model(rri);
-			rr = rrsvc.createResourceRequest(rr, rri.getSubscriptionId(), rri.getAllSkills());
+			rr = rrsvc.createResourceRequest(rr, rri.getSubscriptionId(), rri.getRequestedSkills());
 			APIResourceRequestOut res = ModelTransformer.ResourceRequestModel2API(rr); 
 			return ResponseEntity.ok().body(res);
 		} catch (Exception e) {

@@ -40,6 +40,7 @@ public class ResourceRequest implements Serializable {
 	private String status;
 
 	//bi-directional many-to-one association to RequestSkill
+	@Transient
 	@OneToMany(mappedBy="resourceRequest")
 	private List<RequestSkill> skills;
 

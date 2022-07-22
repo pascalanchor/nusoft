@@ -1,5 +1,6 @@
 package avh.nusoft.api.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,11 +25,11 @@ public class ResourceRequestSvcImpl {
 	
 	@Transactional
 	public ResourceRequest createResourceRequest(ResourceRequest rr, String subid, List<String> skills) {
-		rep.getSubscriptionRep().findById(subid)
+		Subscription sub = rep.getSubscriptionRep().findById(subid)
 			.orElseThrow(() -> new IllegalArgumentException(String.format("No subscription ('%s') found", subid)));
 		
 		this.setRequestSkills(rr, skills);
-		
+		rr.setSubscription(sub);
 		rr.setEid(UUID.randomUUID().toString());
 		rr.setStatus(ResourceRequestStatus.Open.toString());
 		
@@ -93,13 +94,15 @@ public class ResourceRequestSvcImpl {
 	
 	private void setRequestSkills(ResourceRequest rr, List<String> skills) {
 		Iterable<DomainSkill> dsk = rep.getDomSkillRep().findAllById(skills);
+		List<RequestSkill> rsl = new ArrayList<>();
 		for (DomainSkill skl : dsk) {
 			RequestSkill rs = new RequestSkill();
 			rs.setDomainSkill(skl);
 			rs.setResourceRequest(rr);
 			rs.setEid(UUID.randomUUID().toString());
-			rr.addSkill(rs);	
+			rsl.add(rs);
 		}
+		rr.setSkills(rsl);
 	}
 
 	public List<Application> getAllApplications(String id) {

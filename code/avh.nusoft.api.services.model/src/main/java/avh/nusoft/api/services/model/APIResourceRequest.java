@@ -9,9 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter @Setter
-@NoArgsConstructor
 public class APIResourceRequest {
 	private Date date;
 	private String currency;
@@ -23,7 +21,11 @@ public class APIResourceRequest {
 	
 	@Getter(AccessLevel.NONE)
 	@Setter(AccessLevel.NONE)
-	private List<String> requestedSkills = new ArrayList<>();
+	private List<String> requestedSkills;
+	
+	public APIResourceRequest() {
+		requestedSkills = new ArrayList<>();
+	}
 	
 	public boolean addSkill(String skl) {
 		if (requestedSkills.contains(skl))
@@ -32,11 +34,12 @@ public class APIResourceRequest {
 		return true;
 	}
 	
-	public List<String> getAllSkills() {
+	public List<String> getRequestedSkills() {
 		return requestedSkills;
 	}
 	
 	public boolean removeSkill(String skl) {
 		return requestedSkills.remove(skl);
 	}
+	
 }
